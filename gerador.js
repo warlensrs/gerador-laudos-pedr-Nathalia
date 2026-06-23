@@ -107,9 +107,10 @@ function gerarHTML(dadosCalculados, modulosContratados, baseUrl = 'http://localh
   const dataGeracao = new Date().toLocaleDateString('pt-BR');
   const nomeCompleto = `${nomePessoal} ${sobrenomes}`.trim();
 
-  // Função para pegar o caminho de imagem correto via servidor web local
+  // Função para pegar o caminho de imagem correto diretamente do disco local (file://)
   function getCaminhoCarta(numero) {
-    return `${baseUrl}/cartas/${numero}.jpg`;
+    const caminhoAbsoluto = path.join(__dirname, 'resources', 'cartas', `${numero}.jpg`);
+    return 'file:///' + caminhoAbsoluto.replace(/\\/g, '/');
   }
 
   let htmlConteudo = "";
@@ -407,14 +408,13 @@ function gerarHTML(dadosCalculados, modulosContratados, baseUrl = 'http://localh
       /* Container de Página A4 */
       .pagina {
         width: 210mm;
-        height: 297mm;
-        padding: 25mm 20mm;
+        min-height: 296.5mm; /* Margem de segurança de 0.5mm para evitar quebra de página fantasma */
+        padding: 25mm 20mm 35mm; /* Padding inferior aumentado para 35mm para proteger o rodapé absoluto */
         position: relative;
         background-color: #FAF6F0; /* Tom Areia Suave */
         border-bottom: 1px solid #E5D9C8; 
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+        display: block; /* MUDADO de flex para block! Impede colapso de página e PDF em branco */
+        box-sizing: border-box;
       }
 
       /* Estilo da Capa - Cor de Fundo do Canva */
@@ -426,9 +426,12 @@ function gerarHTML(dadosCalculados, modulosContratados, baseUrl = 'http://localh
         border: 2px solid #2C1E3B; /* Moldura Roxo Profundo */
         background-color: #D5C4A1; /* Areia Mate do Canva */
         margin: 10mm;
-        height: calc(297mm - 20mm);
-        width: calc(210mm - 20mm);
+        height: 275mm; /* Removido calc() complexo de impressão */
+        width: 190mm; /* Largura estática A4 descontando margens de 10mm */
         position: relative;
+        display: flex; /* Flex interno em bloco sem quebra é permitido */
+        flex-direction: column;
+        box-sizing: border-box;
       }
       .capa-marca {
         font-family: 'Lora', serif;
@@ -483,13 +486,16 @@ function gerarHTML(dadosCalculados, modulosContratados, baseUrl = 'http://localh
         text-transform: uppercase;
       }
       .rodape-pagina {
+        position: absolute; /* Fixado de forma absoluta no fundo de cada página para compatibilidade com block */
+        bottom: 20mm;
+        left: 20mm;
+        right: 20mm;
         display: flex;
         justify-content: space-between;
         font-size: 10px;
         color: rgba(44, 30, 59, 0.5);
         border-top: 1px solid rgba(44, 30, 59, 0.1);
         padding-top: 3mm;
-        margin-top: auto;
       }
 
       /* Títulos e Seções */
@@ -614,7 +620,10 @@ function gerarHTML(dadosCalculados, modulosContratados, baseUrl = 'http://localh
         text-align: justify;
       }
 
-      /* Numeração de   <body>
+      /* Numeração de páginas automática via CSS */
+    </style>
+  </head>
+  <body>
     <!-- CAPA -->
     <div class="pagina page-break" style="background-color: #FAF6F0; padding: 0;">
       <div class="capa">
@@ -715,6 +724,10 @@ async function gerarPDF(nomesPessoais, sobrenomes, modulosContratados, caminhoSa
   try {
     const dados = processarCalculo(nomesPessoais, sobrenomes);
     const html = gerarHTML(dados, modulosContratados, baseUrl);
+    
+    // Grava o HTML temporário para depuração
+    fs.writeFileSync(path.join(__dirname, 'debug_laudo.html'), html);
+    console.log('[DEBUG] HTML de depuração gravado em:', path.join(__dirname, 'debug_laudo.html'));
 
     // Inicializa o Puppeteer buscando resiliência em containers (Render/Linux) e local no Windows
     let opcoesLaunch = {

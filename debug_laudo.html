@@ -1,0 +1,540 @@
+
+  <!DOCTYPE html>
+  <html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <title>Mapa de Arquétipos - Maria Flor Dos Santos Moraes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: 'Inter', sans-serif;
+        color: #2C1E3B; /* Roxo profundo da marca Nathalia Pepe */
+        background-color: #FAFAFA;
+        -webkit-print-color-adjust: exact;
+      }
+      
+      /* Definições de página para impressão PDF */
+      @page {
+        size: A4;
+        margin: 0;
+      }
+      
+      .page-break {
+        page-break-after: always;
+      }
+
+      /* Container de Página A4 */
+      .pagina {
+        width: 210mm;
+        min-height: 296.5mm; /* Margem de segurança de 0.5mm para evitar quebra de página fantasma */
+        padding: 25mm 20mm 35mm; /* Padding inferior aumentado para 35mm para proteger o rodapé absoluto */
+        position: relative;
+        background-color: #FAF6F0; /* Tom Areia Suave */
+        border-bottom: 1px solid #E5D9C8; 
+        display: block; /* MUDADO de flex para block! Impede colapso de página e PDF em branco */
+        box-sizing: border-box;
+      }
+
+      /* Estilo da Capa - Cor de Fundo do Canva */
+      .capa {
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 40mm 20mm;
+        border: 2px solid #2C1E3B; /* Moldura Roxo Profundo */
+        background-color: #D5C4A1; /* Areia Mate do Canva */
+        margin: 10mm;
+        height: 275mm; /* Removido calc() complexo de impressão */
+        width: 190mm; /* Largura estática A4 descontando margens de 10mm */
+        position: relative;
+        display: flex; /* Flex interno em bloco sem quebra é permitido */
+        flex-direction: column;
+        box-sizing: border-box;
+      }
+      .capa-marca {
+        font-family: 'Lora', serif;
+        font-size: 14px;
+        letter-spacing: 4px;
+        color: #2C1E3B;
+        text-transform: uppercase;
+        margin-bottom: 25mm;
+        font-weight: 500;
+      }
+      .capa-titulo {
+        font-family: 'Lora', serif;
+        font-size: 38px;
+        font-weight: 400;
+        color: #2C1E3B;
+        line-height: 1.2;
+        margin-bottom: 15mm;
+      }
+      .capa-divisor {
+        width: 60px;
+        height: 1px;
+        background-color: #2C1E3B;
+        margin: 10mm auto;
+      }
+      .capa-cliente {
+        font-family: 'Inter', sans-serif;
+        font-size: 20px;
+        font-weight: 500;
+        letter-spacing: 1px;
+        color: #2C1E3B;
+        margin-bottom: 30mm;
+      }
+      .capa-data {
+        font-size: 12px;
+        color: rgba(44, 30, 59, 0.7);
+        position: absolute;
+        bottom: 20mm;
+        width: 100%;
+        left: 0;
+      }
+
+      /* Cabeçalho e Rodapé */
+      .cabeçalho-pagina {
+        display: flex;
+        justify-content: space-between;
+        font-size: 10px;
+        color: rgba(44, 30, 59, 0.5);
+        letter-spacing: 1px;
+        border-bottom: 1px solid rgba(44, 30, 59, 0.1);
+        padding-bottom: 3mm;
+        margin-bottom: 8mm;
+        text-transform: uppercase;
+      }
+      .rodape-pagina {
+        position: absolute; /* Fixado de forma absoluta no fundo de cada página para compatibilidade com block */
+        bottom: 20mm;
+        left: 20mm;
+        right: 20mm;
+        display: flex;
+        justify-content: space-between;
+        font-size: 10px;
+        color: rgba(44, 30, 59, 0.5);
+        border-top: 1px solid rgba(44, 30, 59, 0.1);
+        padding-top: 3mm;
+      }
+
+      /* Títulos e Seções */
+      .titulo-secao {
+        margin-bottom: 8mm;
+      }
+      .titulo-secao .subtitulo {
+        font-size: 11px;
+        font-weight: 600;
+        color: #C5A880; /* Dourado mate de realce */
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 2mm;
+      }
+      .titulo-secao h1 {
+        font-family: 'Lora', serif;
+        font-size: 28px;
+        font-weight: 500;
+        color: #2C1E3B;
+      }
+      .titulo-secao h2 {
+        font-family: 'Lora', serif;
+        font-size: 18px;
+        font-weight: 400;
+        color: rgba(44, 30, 59, 0.8);
+        margin-top: 1mm;
+      }
+      .divisor-ouro {
+        width: 100%;
+        height: 1px;
+        background-color: rgba(44, 30, 59, 0.1);
+        position: relative;
+        margin-top: 3mm;
+      }
+      .divisor-ouro::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 15%;
+        height: 1px;
+        background-color: #2C1E3B;
+      }
+
+      /* Layout de Carta de Tarot */
+      .layout-carta {
+        display: flex;
+        gap: 8mm;
+        margin-bottom: 8mm;
+      }
+      .container-carta {
+        flex: 0 0 50mm;
+        height: 85mm;
+        border: 1px solid #E5D9C8;
+        padding: 2mm;
+        background-color: #FAF6F0;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+      }
+      .imagem-carta {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border: 1px solid rgba(44, 30, 59, 0.1);
+      }
+      .texto-carta {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .texto-carta h3 {
+        font-family: 'Lora', serif;
+        font-size: 15px;
+        font-weight: 500;
+        color: #2C1E3B;
+        margin-bottom: 2mm;
+      }
+      .texto-carta p {
+        font-size: 13.5px;
+        line-height: 1.6;
+        color: rgba(44, 30, 59, 0.9);
+        text-align: justify;
+      }
+
+      /* Textos Gerais */
+      .texto-secao {
+        margin-bottom: 6mm;
+      }
+      .texto-secao h3 {
+        font-family: 'Lora', serif;
+        font-size: 16px;
+        font-weight: 500;
+        color: #2C1E3B;
+        margin-bottom: 2.5mm;
+        border-left: 2px solid #2C1E3B;
+        padding-left: 3mm;
+      }
+      .texto-secao p {
+        font-size: 13.5px;
+        line-height: 1.7;
+        color: rgba(44, 30, 59, 0.9);
+        text-align: justify;
+      }
+
+      /* Introdução / Páginas de Texto Único */
+      .texto-introducao {
+        margin: auto 0;
+      }
+      .texto-introducao h2 {
+        font-family: 'Lora', serif;
+        font-size: 24px;
+        font-weight: 400;
+        color: #2C1E3B;
+        margin-bottom: 6mm;
+      }
+      .texto-introducao p {
+        font-size: 14px;
+        line-height: 1.8;
+        color: rgba(44, 30, 59, 0.9);
+        margin-bottom: 4mm;
+        text-align: justify;
+      }
+
+      /* Numeração de páginas automática via CSS */
+    </style>
+  </head>
+  <body>
+    <!-- CAPA -->
+    <div class="pagina page-break" style="background-color: #FAF6F0; padding: 0;">
+      <div class="capa">
+        <div class="capa-marca">Nathalia Pepe</div>
+        <h1 class="capa-titulo">LAUDO DE ANÁLISE<br>ARQUETÍPICA DO NOME</h1>
+        <div class="capa-divisor"></div>
+        <div class="capa-cliente">Maria Flor Dos Santos Moraes</div>
+        <div class="capa-data">Data de Geração: 23/06/2026</div>
+      </div>
+    </div>
+
+    <!-- INTRODUÇÃO -->
+    <div class="pagina page-break">
+      <div class="cabeçalho-pagina">
+        <span>MAPA DE ARQUÉTIPOS PESSOAIS</span>
+        <span>Maria Flor Dos Santos Moraes</span>
+      </div>
+      
+      <div class="texto-introducao">
+        <h2>Seu Nome Não é Uma Coincidência</h2>
+        <p>Na visão da psicologia arquetípica junguiana e da numerologia tradicional, os nomes e palavras que carregamos na vida não são meras escolhas arbitrárias de nossos pais. Cada letra carrega uma frequência e vibração específica que atua como um molde invisível do nosso comportamento e destino.</p>
+        <p>Este mapa foi desenhado de forma estritamente personalizada para revelar quais são os símbolos do Tarot tradicional (Arcanos Maiores) que operam no seu campo vibracional pessoal (o seu nome) e no seu campo ancestral (os seus sobrenomes).</p>
+        <p>Abaixo, você encontrará a análise das suas principais forças, suas sombras inconscientes e orientações práticas de como usar esse conhecimento para assumir o protagonismo da sua história.</p>
+        <p><em>Use este material como um manual prático de auto-observação. Ao compreender o padrão, você se liberta de repetir a dor.</em></p>
+      </div>
+
+      <div class="rodape-pagina">
+        <span>Nathalia Pepe • Tarot & Autoconhecimento</span>
+        <span class="page-number"></span>
+      </div>
+    </div>
+
+    <!-- CONTEÚDO DINÂMICO -->
+    
+      <div class="pagina page-break">
+        <div class="cabeçalho-pagina">
+          <span>MAPA DE ARQUÉTIPOS PESSOAIS</span>
+          <span>Maria Flor Dos Santos Moraes</span>
+        </div>
+        
+        <div class="titulo-secao">
+          <span class="subtitulo">Ressonância Vibracional Dupla</span>
+          <h1>Maria & Flor = 6</h1>
+          <h2>Os Enamorados (Arcano 6)</h2>
+          <div class="divisor-ouro"></div>
+        </div>
+
+        <div class="layout-carta">
+          <div class="container-carta">
+            <img src="file:///C:/Users/warlen/Desktop/nathalia ebook/resources/cartas/6.jpg" alt="Os Enamorados" class="imagem-carta" />
+          </div>
+          <div class="texto-carta">
+            <h3>Sinergia de Identidade</h3>
+            <p><strong>Fenômeno de Alinhamento:</strong> Tanto o seu primeiro nome, <strong>Maria</strong>, quanto o seu nome composto, <strong>Flor</strong>, vibram sob o mesmo cálculo numerológico, canalizando a egrégora do Arcano <strong>Os Enamorados</strong>. Quando ambos os nomes carregam a mesma vibração, há uma intensificação dessa energia em sua vida. A sua essência interna (quem você é) e a sua expressão externa (como você se projeta no mundo) caminham em perfeita sintonia, conferindo-lhe uma personalidade muito autêntica e um senso de propósito unificado.</p>
+          </div>
+        </div>
+
+        <div class="texto-secao">
+          <h3>O Simbolismo Oculto da Carta</h3>
+          <p>Na carta dos Enamorados no Tarot Rider-Waite, um homem e uma mulher nus (representando Adão e Eva em estado de pureza original) estão sob a bênção de um grande anjo com asas de fogo (o arcanjo Rafael), que surge acima das nuvens. Ao fundo, a árvore da vida com doze frutos fica atrás do homem, e a árvore do conhecimento do bem e do mal (com a serpente enrolada) fica atrás da mulher. Uma grande montanha vulcânica se ergue entre eles. A carta representa não apenas o amor romântico, mas a energia do livre-arbítrio, o poder de escolha consciente, a harmonia dos opostos (razão e emoção, masculino e feminino) e a necessidade de tomar decisões com base nos valores do coração, e não na aprovação externa.</p>
+        </div>
+
+        <div class="rodape-pagina">
+          <span>Nathalia Pepe • Desenvolvimento de Perfil</span>
+          <span class="page-number"></span>
+        </div>
+      </div>
+
+      <div class="pagina page-break">
+        <div class="cabeçalho-pagina">
+          <span>MAPA DE ARQUÉTIPOS PESSOAIS</span>
+          <span>Maria Flor Dos Santos Moraes</span>
+        </div>
+
+        <div class="texto-secao">
+          <h3>Identidade & Essência Vibracional</h3>
+          <p>Seu primeiro nome vibra na frequência dos Enamorados. Sua essência é relacional, harmoniosa, estética e extremamente empática. Você nasceu com uma sensibilidade fina para captar os sentimentos dos outros e busca a harmonia em todas as suas interações. A arte da escolha é a sua grande jornada na vida: você é uma pessoa movida por paixão e autenticidade em tudo o que faz. Seu propósito está ligado a criar conexões profundas, unir pessoas, mediar conflitos e viver de acordo com suas próprias verdades fundamentais, aprendendo a decidir por si mesma.</p>
+        </div>
+
+        <div class="texto-secao">
+          <h3>A Sombra (Pontos de Autossabotagem)</h3>
+          <p>A sombra dos Enamorados se manifesta na indecisão crônica, no medo do conflito e no hábito de tentar agradar a todos, anulando a própria voz. Você pode travar diante de escolhas importantes por medo de perder opções ou desapontar as pessoas à sua volta. Outro traço de sombra é a dependência emocional excessiva, o medo de ficar só ou a tendência de se anular em prol de manter a paz superficial nas relações.</p>
+        </div>
+
+        <div class="rodape-pagina">
+          <span>Nathalia Pepe • Desenvolvimento de Perfil</span>
+          <span class="page-number"></span>
+        </div>
+      </div>
+
+      <div class="pagina page-break">
+        <div class="cabeçalho-pagina">
+          <span>MAPA DE ARQUÉTIPOS PESSOAIS</span>
+          <span>Maria Flor Dos Santos Moraes</span>
+        </div>
+
+        <div class="texto-secao">
+          <h3>Caminho de Evolução e Conselho Prático</h3>
+          <p>Seu caminho de evolução exige que você desenvolva o autodomínio e a coragem de fazer escolhas firmes, aceitando que escolher um caminho significa necessariamente abrir mão de outro. Cultive a sua independência emocional e aprenda a dizer 'não' quando a sua verdade interna for agredida. A verdadeira harmonia só existe quando há espaço para a sua própria identidade viva.</p>
+        </div>
+
+        <div class="rodape-pagina">
+          <span>Nathalia Pepe • Desenvolvimento de Perfil</span>
+          <span class="page-number"></span>
+        </div>
+      </div>
+    
+        <div class="pagina page-break">
+          <div class="cabeçalho-pagina">
+            <span>MAPA DE ARQUÉTIPOS PESSOAIS • AMOR E RELACIONAMENTOS</span>
+            <span>Maria Flor Dos Santos Moraes</span>
+          </div>
+
+          <div class="titulo-secao">
+            <span class="subtitulo">MÓDULO AMOR E RELACIONAMENTOS (VIBRAÇÃO DUPLA)</span>
+            <h1>Maria & Flor = 6</h1>
+            <h2>A Energia d'Os Enamorados na Vida Amorosa</h2>
+            <div class="divisor-ouro"></div>
+          </div>
+
+          <div class="texto-secao">
+            <h3>Comportamento Afetivo & Padrões</h3>
+            <p>No amor, o arquétipo dos Enamorados é o mais romântico e magnético de todos. Você busca fusão de almas, carinho físico, reciprocidade profunda e beleza na relação. Você valoriza o namoro e a parceria diária. Sua autossabotagem é o medo paralisante da rejeição e a tendência a aceitar dinâmicas desiguais de afeto apenas para manter a pessoa amada por perto.</p>
+          </div>
+
+          <div class="texto-secao">
+            <h3>Caminho de Cura nos Relacionamentos</h3>
+            <p>Para curar as suas relações, você precisa se posicionar. Não aceite menos do que você entrega. O amor verdadeiro respeita a sua individualidade; se você precisa se anular para caber na vida do outro, essa conexão está desequilibrada. Aprenda a amar a si mesma primeiro para atrair parcerias maduras.</p>
+          </div>
+
+          <div class="rodape-pagina">
+            <span>Nathalia Pepe • Desenvolvimento de Perfil</span>
+            <span class="page-number"></span>
+          </div>
+        </div>
+      
+        <div class="pagina page-break">
+          <div class="cabeçalho-pagina">
+            <span>MAPA DE ARQUÉTIPOS PESSOAIS • CARREIRA</span>
+            <span>Maria Flor Dos Santos Moraes</span>
+          </div>
+
+          <div class="titulo-secao">
+            <span class="subtitulo">MÓDULO CARREIRA (VIBRAÇÃO DUPLA)</span>
+            <h1>Maria & Flor = 6</h1>
+            <h2>A Energia d'Os Enamorados no Profissional</h2>
+            <div class="divisor-ouro"></div>
+          </div>
+
+          <div class="texto-secao">
+            <h3>Dons & Vocação Profissional</h3>
+            <p>Profissionalmente, você prospera em áreas ligada a parcerias, relações públicas, vendas consultivas, recursos humanos, moda, design, psicologia ou mediação de conflitos. Você é excelente em trabalhar em equipe e gerar ambientes de cooperação. O dinheiro vem da sua habilidade de se conectar de forma autêntica e empática com as pessoas.</p>
+          </div>
+
+          <div class="texto-secao">
+            <h3>Desafios Profissionais & Obstáculos na Carreira</h3>
+            <p>Sua autossabotagem financeira está ligada à dificuldade em cobrar de forma assertiva ou na falta de limites em parcerias comerciais. Você pode fazer descontos excessivos ou trabalhar de graça por medo de constranger o cliente. A cura financeira está em entender que cobrar o preço justo pelo seu serviço é um ato de respeito e autoamor.</p>
+          </div>
+
+          <div class="rodape-pagina">
+            <span>Nathalia Pepe • Desenvolvimento de Perfil</span>
+            <span class="page-number"></span>
+          </div>
+        </div>
+      
+        <div class="pagina page-break">
+          <div class="cabeçalho-pagina">
+            <span>MAPA DE ARQUÉTIPOS • HERANÇA ANCESTRAL</span>
+            <span>Maria Flor Dos Santos Moraes</span>
+          </div>
+
+          <div class="titulo-secao">
+            <span class="subtitulo">MÓDULO HERANÇA ANCESTRAL</span>
+            <h1>Dos santos = 9</h1>
+            <h2>Egrégora Familiar: O Eremita (Arcano 9)</h2>
+            <div class="divisor-ouro"></div>
+          </div>
+
+          <div class="layout-carta">
+            <div class="container-carta">
+              <img src="file:///C:/Users/warlen/Desktop/nathalia ebook/resources/cartas/9.jpg" alt="O Eremita" class="imagem-carta" />
+            </div>
+            <div class="texto-carta">
+              <h3>Simbolismo da Linhagem Ancestral</h3>
+              <p>Na carta do Eremita no Tarot Rider-Waite, uma figura idosa, vestindo uma túnica cinza com capuz, está solitária no topo de uma montanha coberta de neve sob um céu escuro. Em sua mão direita, ele segura uma lanterna dourada que brilha com uma estrela de seis pontas (a Estrela de Davi - símbolo da sabedoria), e em sua mão esquerda ele segura um cajado de madeira (o apoio da experiência terrena). O Eremita representa o arquétipo da introspecção profunda, da busca pela verdade interior, do autoconhecimento isolado, do tempo que amadurece os projetos e da sabedoria silenciosa. A sua lanterna brilha apenas para o próximo passo no caminho, ensinando que a evolução espiritual e a clareza prática acontecem passo a passo, no silêncio da própria alma.</p>
+            </div>
+          </div>
+
+          <div class="texto-secao">
+            <h3>A Energia da Linhagem & Padrão Herdado</h3>
+            <p>Ter o Eremita em seus sobrenomes revela uma linhagem ancestral caracterizada pelo silêncio, pelo recolhimento protetor, pela resiliência solitária e pelo valor da herança intelectual ou espiritual silenciosa. Sua família provavelmente tem o histórico de pessoas discretas, que mantiveram seus segredos e dores guardados na alma. A sombra familiar a ser curada por você é o padrão de solidão e o tabu da comunicação afetiva entre pais e filhos. Você carrega essa energia para ensinar ao seu clã que demonstrar amor, falar de sentimentos e quebrar o silêncio da casa é seguro e liberta.</p>
+          </div>
+
+          <div class="rodape-pagina">
+            <span>Nathalia Pepe • Desenvolvimento de Perfil</span>
+            <span class="page-number"></span>
+          </div>
+        </div>
+      
+        <div class="pagina page-break">
+          <div class="cabeçalho-pagina">
+            <span>MAPA DE ARQUÉTIPOS • HERANÇA ANCESTRAL</span>
+            <span>Maria Flor Dos Santos Moraes</span>
+          </div>
+
+          <div class="titulo-secao">
+            <span class="subtitulo">MÓDULO HERANÇA ANCESTRAL</span>
+            <h1>Moraes = 8</h1>
+            <h2>Egrégora Familiar: A Justiça (Arcano 8)</h2>
+            <div class="divisor-ouro"></div>
+          </div>
+
+          <div class="layout-carta">
+            <div class="container-carta">
+              <img src="file:///C:/Users/warlen/Desktop/nathalia ebook/resources/cartas/8.jpg" alt="A Justiça" class="imagem-carta" />
+            </div>
+            <div class="texto-carta">
+              <h3>Simbolismo da Linhagem Ancestral</h3>
+              <p>Na carta da Justiça no Tarot Rider-Waite, uma figura solene está sentada em um trono de pedra entre duas colunas maciças, sob um pano de fundo avermelhado. Em sua mão direita, ela segura uma espada erguida de dois gumes, simbolizando o discernimento mental agudo que corta as ilusões. Em sua mão esquerda, ela segura a balança, demonstrando equilíbrio, ponderação e a lei de causa e efeito. Ela usa uma coroa dourada com um pequeno quadrado vermelho no centro (representando a ordem e a matéria) e expõe um pé sob a túnica verde, mostrando a sua conexão com a base da realidade terrestre. A Justiça representa o arquétipo da integridade ética, do equilíbrio racional, da clareza analítica, da responsabilidade pessoal e da colheita justa: você recebe exatamente o que planta na vida.</p>
+            </div>
+          </div>
+
+          <div class="texto-secao">
+            <h3>A Energia da Linhagem & Padrão Herdado</h3>
+            <p>Ter a Justiça em seus sobrenomes revela uma egrégora familiar ancestral ligada à preservação da honra, à reputação pública ilibada, ao cumprimento de deveres ou à dor de injustiças históricas sofridas. Seus antepassados provavelmente precisaram trabalhar duro para provar seu valor moral perante a sociedade. O padrão de sombra que você herda para curar é a cobrança interna severa herdada de pais e avós: a crença de que você só tem valor se for perfeito. Você carrega essa energia para liberar a sua linhagem desse peso, ensinando que a vida também é feita de leveza e aceitação das fraquezas humanas.</p>
+          </div>
+
+          <div class="rodape-pagina">
+            <span>Nathalia Pepe • Desenvolvimento de Perfil</span>
+            <span class="page-number"></span>
+          </div>
+        </div>
+      
+
+    <!-- SOBRE A AUTORA -->
+    <div class="pagina page-break">
+      <div class="cabeçalho-pagina">
+        <span>MAPA DE ARQUÉTIPOS PESSOAIS • SOBRE A AUTORA</span>
+        <span>Maria Flor Dos Santos Moraes</span>
+      </div>
+      
+      <div class="texto-introducao" style="margin-top: 10mm;">
+        <h2 style="font-family: 'Lora', serif; font-size: 24px; color: #2C1E3B; margin-bottom: 4mm;">Sobre a Autora</h2>
+        <h3 style="font-family: 'Lora', serif; font-size: 18px; color: #C5A880; font-weight: 500; margin-bottom: 6mm;">Nathalia Pepe</h3>
+        
+        <p style="font-size: 13.5px; line-height: 1.8; color: rgba(44, 30, 59, 0.9); margin-bottom: 4mm; text-align: justify;">
+          <strong>Nathalia Pepe</strong> é médium desde os 16 anos de idade, e estuda e trabalha com o Tarot desde os 21. Taróloga e pesquisadora dos padrões de comportamento humano, Nathalia atua guiando pessoas a decifrarem o código invisível de suas personalidades e a destravarem seus caminhos de vida através da união entre a Psicologia Arquetípica de Carl Jung, a Numerologia Pitagórica e a sabedoria secular do Tarot tradicional de Rider-Waite.
+        </p>
+        
+        <p style="font-size: 13.5px; line-height: 1.8; color: rgba(44, 30, 59, 0.9); margin-bottom: 4mm; text-align: justify;">
+          Com ampla experiência em atendimentos individuais e mentorias, ela disponibilizou esse conhecimento secular para traduzir a complexidade simbólica das cartas em conselhos práticos e evolutivos para o cotidiano. Seu propósito é servir como ponte para que você se reconecte com sua verdadeira essência, liberte-se de ciclos repetitivos e assuma o protagonismo da sua própria história.
+        </p>
+        
+        <p style="font-size: 13.5px; line-height: 1.8; color: #2C1E3B; font-style: italic; margin-top: 8mm; margin-bottom: 8mm; text-align: center; font-weight: 500;">
+          "Ao compreender o padrão, você se liberta de repetir a dor. O seu nome não é um acaso, é a sua assinatura no mundo."
+        </p>
+
+        <div style="border-top: 1px solid rgba(44, 30, 59, 0.1); padding-top: 6mm; margin-top: 6mm;">
+          <h4 style="font-family: 'Lora', serif; font-size: 14px; color: #2C1E3B; margin-bottom: 2mm;">Acompanhe o trabalho de Nathalia:</h4>
+          <p style="font-size: 13px; color: rgba(44, 30, 59, 0.8); line-height: 1.6;">
+            • <strong>Instagram:</strong> @nathaliapepe.tarot<br>
+            • <strong>Consultas & Mentorias:</strong> Entre em contato para agendar uma leitura individual aprofundada do seu mapa de arquétipos.
+          </p>
+        </div>
+      </div>
+
+      <div class="rodape-pagina">
+        <span>Nathalia Pepe • Tarot & Autoconhecimento</span>
+        <span class="page-number"></span>
+      </div>
+    </div>
+
+    <!-- CONTRACAPA -->
+    <div class="pagina" style="background-color: #FAF6F0; justify-content: center; align-items: center; text-align: center;">
+      <div style="border: 1px solid #E5D9C8; padding: 15mm; max-width: 150mm; background-color: #FAF5EE; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);">
+        <h2 style="font-family: 'Lora', serif; font-size: 24px; color: #2C1E3B; margin-bottom: 4mm;">Sua Jornada Continua</h2>
+        <p style="font-size: 13.5px; line-height: 1.7; color: rgba(44, 30, 59, 0.9); margin-bottom: 6mm;">
+          Este mapa revela as principais energias que moldam o seu nome e ancestralidade. No entanto, a complexidade da sua alma é única. Para aprofundar esses resultados, descobrir a vibração do seu dia de nascimento e receber orientações direcionadas para o seu momento de vida atual, agende uma sessão individual.
+        </p>
+        <div class="capa-divisor"></div>
+        <p style="font-family: 'Lora', serif; font-size: 16px; font-weight: 500; color: #C5A880; margin-bottom: 2mm;">
+          Nathalia Pepe
+        </p>
+        <p style="font-size: 12px; color: rgba(44, 30, 59, 0.6); letter-spacing: 1px; text-transform: uppercase;">
+          Tarot & Autoconhecimento
+        </p>
+      </div>
+    </div>
+  </body>
+  </html>
+  
