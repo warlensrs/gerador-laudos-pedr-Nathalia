@@ -108,10 +108,9 @@ function gerarHTML(dadosCalculados, modulosContratados, baseUrl = 'http://localh
   const dataGeracao = new Date().toLocaleDateString('pt-BR');
   const nomeCompleto = `${nomePessoal} ${sobrenomes}`.trim();
 
-  // Função para pegar o caminho de imagem correto diretamente do disco local (file://)
+  // Função para pegar o caminho de imagem correto por URL HTTP local
   function getCaminhoCarta(numero) {
-    const caminhoAbsoluto = path.join(__dirname, 'resources', 'cartas', `${numero}.jpg`);
-    return pathToFileURL(caminhoAbsoluto).href;
+    return `${baseUrl}/cartas/${numero}.jpg`;
   }
 
   let htmlConteudo = "";
@@ -409,11 +408,10 @@ function gerarHTML(dadosCalculados, modulosContratados, baseUrl = 'http://localh
       /* Container de Página A4 */
       .pagina {
         width: 210mm;
-        min-height: 296.5mm; /* Margem de segurança de 0.5mm para evitar quebra de página fantasma */
+        min-height: 295mm; /* Reduzido para 295mm para evitar quebra de página fantasma por transbordo */
         padding: 25mm 20mm 35mm; /* Padding inferior aumentado para 35mm para proteger o rodapé absoluto */
         position: relative;
         background-color: #FAF6F0; /* Tom Areia Suave */
-        border-bottom: 1px solid #E5D9C8; 
         display: block; /* MUDADO de flex para block! Impede colapso de página e PDF em branco */
         box-sizing: border-box;
       }
