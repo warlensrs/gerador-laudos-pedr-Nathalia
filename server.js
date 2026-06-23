@@ -57,35 +57,6 @@ app.post('/api/gerar-mapa', async (req, res) => {
     res.status(500).json({ erro: "Erro interno ao gerar o PDF.", detalhes: erro.message });
   }
 });
-
-// Rota de depuração para listar os arquivos do cache do Puppeteer
-app.get('/debug', (req, res) => {
-  const fs = require('fs');
-  const path = require('path');
-  
-  function listFiles(dir, fileList = []) {
-    if (!fs.existsSync(dir)) return fileList;
-    const files = fs.readdirSync(dir);
-    files.forEach(file => {
-      const filePath = path.join(dir, file);
-      if (fs.statSync(filePath).isDirectory()) {
-        listFiles(filePath, fileList);
-      } else {
-        fileList.push(filePath);
-      }
-    });
-    return fileList;
-  }
-  
-  try {
-    const rootCache = process.env.PUPPETEER_CACHE_DIR || '/opt/render/.cache/puppeteer';
-    const files = listFiles(rootCache);
-    res.json({ rootCache, exists: fs.existsSync(rootCache), files });
-  } catch (err) {
-    res.json({ erro: err.message });
-  }
-});
-
 // Inicialização do servidor
 app.listen(PORT, () => {
   console.log("=================================================================");
