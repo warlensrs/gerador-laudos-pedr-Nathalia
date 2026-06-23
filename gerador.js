@@ -108,9 +108,14 @@ function gerarHTML(dadosCalculados, modulosContratados, baseUrl = 'http://localh
   const dataGeracao = new Date().toLocaleDateString('pt-BR');
   const nomeCompleto = `${nomePessoal} ${sobrenomes}`.trim();
 
-  // Função para pegar o caminho de imagem correto por URL HTTP local
+  // Função para embutir a imagem do Tarot diretamente no HTML como Base64 (evita deadlocks e restrições de sandbox)
   function getCaminhoCarta(numero) {
-    return `${baseUrl}/cartas/${numero}.jpg`;
+    const caminhoAbsoluto = path.join(__dirname, 'resources', 'cartas', `${numero}.jpg`);
+    if (fs.existsSync(caminhoAbsoluto)) {
+      const imagemBase64 = fs.readFileSync(caminhoAbsoluto, { encoding: 'base64' });
+      return `data:image/jpeg;base64,${imagemBase64}`;
+    }
+    return "";
   }
 
   let htmlConteudo = "";
@@ -408,12 +413,13 @@ function gerarHTML(dadosCalculados, modulosContratados, baseUrl = 'http://localh
       /* Container de Página A4 */
       .pagina {
         width: 210mm;
-        min-height: 295mm; /* Reduzido para 295mm para evitar quebra de página fantasma por transbordo */
+        height: 295.5mm; /* Ligeiramente menor que 297mm (A4) para evitar quebra de pagina dupla fantasma */
         padding: 25mm 20mm 35mm; /* Padding inferior aumentado para 35mm para proteger o rodapé absoluto */
         position: relative;
         background-color: #FAF6F0; /* Tom Areia Suave */
         display: block; /* MUDADO de flex para block! Impede colapso de página e PDF em branco */
         box-sizing: border-box;
+        overflow: hidden; /* Corta qualquer micro-transbordo impedindo paginas em branco fantasmas */
       }
 
       /* Estilo da Capa - Cor de Fundo do Canva */
@@ -424,7 +430,7 @@ function gerarHTML(dadosCalculados, modulosContratados, baseUrl = 'http://localh
         padding: 40mm 20mm;
         border: 2px solid #2C1E3B; /* Moldura Roxo Profundo */
         background-color: #D5C4A1; /* Areia Mate do Canva */
-        margin: 10mm;
+        margin: 16mm auto; /* Centralizado vertical e horizontalmente */
         height: 265mm; /* Reduzido de 275mm para evitar quebra de pagina fantasma */
         width: 190mm; /* Largura estatica A4 descontando margens de 10mm */
         position: relative;
