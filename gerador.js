@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { pathToFileURL } = require('url');
 const puppeteer = require('puppeteer');
 const conteudoArquetipos = require('./conteudo_arquetipos');
 
@@ -110,7 +111,7 @@ function gerarHTML(dadosCalculados, modulosContratados, baseUrl = 'http://localh
   // Função para pegar o caminho de imagem correto diretamente do disco local (file://)
   function getCaminhoCarta(numero) {
     const caminhoAbsoluto = path.join(__dirname, 'resources', 'cartas', `${numero}.jpg`);
-    return 'file:///' + caminhoAbsoluto.replace(/\\/g, '/');
+    return pathToFileURL(caminhoAbsoluto).href;
   }
 
   let htmlConteudo = "";
@@ -426,8 +427,8 @@ function gerarHTML(dadosCalculados, modulosContratados, baseUrl = 'http://localh
         border: 2px solid #2C1E3B; /* Moldura Roxo Profundo */
         background-color: #D5C4A1; /* Areia Mate do Canva */
         margin: 10mm;
-        height: 275mm; /* Removido calc() complexo de impressão */
-        width: 190mm; /* Largura estática A4 descontando margens de 10mm */
+        height: 265mm; /* Reduzido de 275mm para evitar quebra de pagina fantasma */
+        width: 190mm; /* Largura estatica A4 descontando margens de 10mm */
         position: relative;
         display: flex; /* Flex interno em bloco sem quebra é permitido */
         flex-direction: column;
