@@ -19,7 +19,7 @@ app.use('/cartas', express.static(path.join(__dirname, 'resources', 'cartas')));
 
 // Rota de health check para verificar a versao ativa em producao
 app.get('/api/health', (req, res) => {
-  res.json({ status: "ok", versao: "1.0.1 - Correcao de PDF em branco", data: "2026-06-23T14:58:00Z" });
+  res.json({ status: "ok", versao: "1.0.2 - Correcao de imagens e folha em branco", data: "2026-06-23T15:04:00Z" });
 });
 
 // API que recebe os dados da compra e gera o PDF dinâmico
