@@ -78,7 +78,7 @@ app.get('/debug', (req, res) => {
   }
   
   try {
-    const rootCache = '/opt/render/.cache/puppeteer';
+    const rootCache = process.env.PUPPETEER_CACHE_DIR || '/opt/render/.cache/puppeteer';
     const files = listFiles(rootCache);
     res.json({ rootCache, exists: fs.existsSync(rootCache), files });
   } catch (err) {
