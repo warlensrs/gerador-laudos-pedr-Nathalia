@@ -1,0 +1,604 @@
+/* Reset e Definições de Base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #FAF6F0; /* Areia suave */
+  color: #2C1E3B; /* Roxo profundo */
+  line-height: 1.6;
+  padding: 10px;
+}
+
+.container {
+  max-width: 750px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+/* Cabeçalho */
+.main-header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.brand {
+  font-family: 'Lora', serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #C5A880; /* Dourado mate */
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.main-header h1 {
+  font-family: 'Lora', serif;
+  font-size: 32px;
+  font-weight: 400;
+  color: #2C1E3B;
+  line-height: 1.3;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #6B7280;
+  margin-top: 5px;
+}
+
+/* Card do Gerador */
+.generator-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 4px;
+  padding: 30px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+}
+
+/* Formulários */
+.form-group {
+  margin-bottom: 24px;
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 4px;
+}
+
+.field-desc {
+  display: block;
+  font-size: 12px;
+  color: #9CA3AF;
+  margin-bottom: 8px;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 12px 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: #1F2937;
+  background-color: #FAF9F6;
+  border: 1px solid #D1D5DB;
+  border-radius: 4px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: #C5A880;
+  box-shadow: 0 0 0 3px rgba(197, 168, 128, 0.15);
+}
+
+/* Opções de Módulos (Checkboxes) */
+.modules-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.module-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px;
+  background-color: #FAF9F6;
+  border: 1px solid #E5E7EB;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.module-option:hover {
+  border-color: #C5A880;
+}
+
+.module-option.disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  background-color: #F3F4F6;
+}
+
+.module-option input[type="checkbox"] {
+  margin-top: 4px;
+  accent-color: #C5A880;
+  width: 16px;
+  height: 16px;
+}
+
+.module-option label {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.module-option label strong {
+  font-size: 13.5px;
+  color: #1F2937;
+}
+
+.module-option label span {
+  font-size: 11.5px;
+  color: #6B7280;
+  margin-top: 2px;
+  font-weight: 400;
+}
+
+/* Bloco de Alerta Crítico (Conferência de Dados) */
+.alerta-conferencia {
+  background-color: #FFF7ED; /* Tom abóbora/laranja muito sutil */
+  border-left: 3px solid #F97316; /* Laranja de atenção */
+  border-radius: 4px;
+  padding: 16px 20px;
+  margin-bottom: 30px;
+  display: flex;
+  gap: 14px;
+}
+
+.alerta-icon {
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.alerta-conteudo h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #9A3412; /* Terracota escuro */
+  margin-bottom: 4px;
+}
+
+.alerta-conteudo p {
+  font-size: 12.5px;
+  color: #7C2D12;
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+
+.alerta-conteudo p:last-child {
+  margin-bottom: 0;
+}
+
+.alerta-destaque {
+  font-weight: 600;
+  color: #C2410C;
+  border-top: 1px dashed rgba(194, 65, 12, 0.2);
+  padding-top: 6px;
+  margin-top: 6px;
+}
+
+/* Botão de Geração */
+.btn-primary {
+  width: 100%;
+  padding: 14px;
+  background-color: #2C1E3B; /* Roxo Profundo */
+  color: #FFFFFF;
+  border: none;
+  border-radius: 4px;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:hover {
+  background-color: #4A335E; /* Roxo Médio */
+}
+
+.btn-primary:active {
+  transform: scale(0.99);
+}
+
+.btn-primary:disabled {
+  background-color: #9CA3AF;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Rodapé */
+.main-footer {
+  text-align: center;
+  margin-top: 35px;
+  font-size: 11px;
+  color: #9CA3AF;
+}
+
+/* Novos estilos para campos compostos e dinâmicos */
+.form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 600px) {
+  .form-row-2 {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+.sobrenome-item {
+  position: relative;
+  margin-bottom: 12px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.sobrenome-item input {
+  flex: 1;
+  padding: 12px 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: #2C1E3B;
+  background-color: #FAF9F6;
+  border: 1px solid #D1D5DB;
+  border-radius: 4px;
+}
+
+.sobrenome-number {
+  position: absolute;
+  bottom: -15px;
+  left: 2px;
+  font-size: 10px;
+  color: #9CA3AF;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sobrenome-item {
+  padding-bottom: 18px; /* Espaço para a label flutuante de número */
+}
+
+.btn-secondary-link {
+  background: none;
+  border: none;
+  color: #C5A880;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 5px 0;
+  margin-top: 5px;
+  display: inline-block;
+  transition: color 0.2s;
+  text-decoration: underline;
+}
+
+.btn-secondary-link:hover {
+  color: #2C1E3B;
+}
+
+.btn-remover-sobrenome {
+  background-color: #FEE2E2;
+  color: #991B1B;
+  border: 1px solid #FCA5A5;
+  padding: 10px 14px;
+  border-radius: 4px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-remover-sobrenome:hover {
+  background-color: #FCA5A5;
+}
+
+/* Badges e Estilos Dinâmicos dos Módulos */
+.module-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.badge {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 12px;
+  letter-spacing: 0.5px;
+  display: inline-block;
+}
+
+.badge.incluso {
+  background-color: #FEF3C7; /* Amarelo dourado sutil */
+  color: #D97706; /* Laranja dourado escuro */
+  border: 1px solid #FCD34D;
+}
+
+.badge.ausente {
+  background-color: #F3F4F6;
+  color: #9CA3AF;
+  border: 1px solid #E5E7EB;
+}
+
+/* Estado de Adquirido no contêiner */
+.module-option.adquirido {
+  border-color: #C5A880; /* Dourado da marca */
+  background-color: #FAF6F0; /* Areia sutil para dar destaque */
+}
+
+/* Quando visualizado pelo cliente (apenas leitura) */
+.module-option.cliente-view {
+  cursor: default;
+}
+.module-option.cliente-view input[type="checkbox"] {
+  cursor: default;
+}
+.module-option.cliente-view label {
+  cursor: default;
+}
+.module-option.cliente-view:hover {
+  border-color: #E5E7EB; /* Borda padrão no hover de leitura */
+}
+.module-option.cliente-view.adquirido:hover {
+  border-color: #C5A880; /* Borda dourada no hover de leitura adquirida */
+}
+
+/* Overlay de Processamento Místico Premium */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(28, 16, 41, 0.96); /* Roxo místico super profundo */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  backdrop-filter: blur(10px);
+  opacity: 1;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.loading-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+  display: none !important;
+}
+
+.loading-content {
+  background: radial-gradient(circle at center, rgba(44, 30, 59, 0.6) 0%, rgba(20, 11, 30, 0.9) 100%);
+  border: 1px solid rgba(197, 168, 128, 0.15);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  color: #FFFFFF;
+  padding: 40px 30px;
+  max-width: 480px;
+  width: 90%;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Detalhes dourados nas bordas do modal */
+.loading-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #C5A880, transparent);
+}
+
+.mystical-spinner-container {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 28px;
+}
+
+.mystical-spinner {
+  width: 90px;
+  height: 90px;
+  border: 2px solid rgba(197, 168, 128, 0.1);
+  border-top: 2px solid #C5A880; /* Dourado */
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+}
+
+.mystical-spinner-inner {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  border: 1px solid rgba(197, 168, 128, 0.05);
+  border-bottom: 2px solid #D4B994;
+  border-radius: 50%;
+  animation: spin-reverse 1.5s linear infinite;
+}
+
+.mystical-spinner-center {
+  position: absolute;
+  top: 35px;
+  left: 35px;
+  width: 20px;
+  height: 20px;
+  background-color: #C5A880;
+  border-radius: 50%;
+  box-shadow: 0 0 15px #C5A880;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes spin-reverse {
+  0% { transform: rotate(360deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { transform: scale(0.8); opacity: 0.6; box-shadow: 0 0 10px rgba(197, 168, 128, 0.5); }
+  50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 20px rgba(197, 168, 128, 0.9); }
+}
+
+#loadingTitle {
+  font-family: 'Lora', serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: #FAF6F0;
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
+}
+
+#loadingSubtitle {
+  font-size: 13.5px;
+  color: #9CA3AF;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+
+.progress-bar {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #C5A880, #E0C7A6);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.progress-steps {
+  font-size: 11px;
+  color: #C5A880;
+  font-style: italic;
+  min-height: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+/* Área de Sucesso */
+.success-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.success-icon {
+  font-size: 48px;
+  margin-bottom: 15px;
+  color: #C5A880;
+  animation: bounce-in 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes bounce-in {
+  0% { transform: scale(0.3); opacity: 0; }
+  50% { transform: scale(1.1); }
+  70% { transform: scale(0.9); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Botão do PDF Síncrono */
+.btn-success-pdf {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #C5A880 0%, #B8976C 100%);
+  color: #1C1029; /* Roxo escuro para contraste */
+  padding: 16px 36px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15.5px;
+  letter-spacing: 0.5px;
+  margin-top: 15px;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(197, 168, 128, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.btn-success-pdf:hover {
+  background: linear-gradient(135deg, #D4B994 0%, #C5A880 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(197, 168, 128, 0.35);
+}
+
+.btn-success-pdf:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 15px rgba(197, 168, 128, 0.25);
+}
+
+.success-instruction {
+  font-size: 11.5px;
+  color: #9CA3AF;
+  margin-top: 14px;
+  text-align: center;
+  max-width: 320px;
+  line-height: 1.4;
+}
+
+.btn-close-overlay {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 12px;
+  margin-top: 25px;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+
+.btn-close-overlay:hover {
+  color: #FAF6F0;
+}
+
+
