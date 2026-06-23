@@ -17,6 +17,11 @@ app.use('/gerados', express.static(path.join(__dirname, 'gerados')));
 // Serve as cartas de tarot como arquivos estáticos (opção redundante para o renderizador)
 app.use('/cartas', express.static(path.join(__dirname, 'resources', 'cartas')));
 
+// Rota de health check para verificar a versao ativa em producao
+app.get('/api/health', (req, res) => {
+  res.json({ status: "ok", versao: "1.0.1 - Correcao de PDF em branco", data: "2026-06-23T14:58:00Z" });
+});
+
 // API que recebe os dados da compra e gera o PDF dinâmico
 app.post('/api/gerar-mapa', async (req, res) => {
   const { nomesPessoais, sobrenomes, modulos } = req.body;
