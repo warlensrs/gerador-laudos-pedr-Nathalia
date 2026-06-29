@@ -3,189 +3,446 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Acesso Temporariamente Restrito - Nathalia Pepe</title>
+  <title>Painel de Geração - Mapa de Arquétipos</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      font-family: 'Inter', sans-serif;
-      color: #E5D9C8; /* Areia mate suave */
-      background-color: #120A1A; /* Roxo ultra escuro místico */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      overflow: hidden;
-      position: relative;
-    }
-    
-    /* Fundo místico dinâmico */
-    body::before {
-      content: '';
-      position: absolute;
-      width: 150%;
-      height: 150%;
-      background: radial-gradient(circle, rgba(44, 25, 65, 0.4) 0%, rgba(18, 10, 26, 1) 70%);
-      top: -25%;
-      left: -25%;
-      z-index: 1;
-      animation: pulseBg 12s infinite alternate ease-in-out;
-    }
-
-    @keyframes pulseBg {
-      0% { transform: scale(1); opacity: 0.8; }
-      100% { transform: scale(1.1); opacity: 1; }
-    }
-
-    /* Partículas de estrelas pulsantes */
-    .estrelas {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      z-index: 2;
-      pointer-events: none;
-    }
-    .estrela {
-      position: absolute;
-      background-color: #C5A880;
-      border-radius: 50%;
-      animation: twinkle 3s infinite ease-in-out;
-    }
-    .estrela-1 { top: 15%; left: 20%; width: 3px; height: 3px; animation-delay: 0s; }
-    .estrela-2 { top: 40%; left: 80%; width: 2px; height: 2px; animation-delay: 1s; }
-    .estrela-3 { top: 75%; left: 15%; width: 4px; height: 4px; animation-delay: 1.5s; }
-    .estrela-4 { top: 80%; left: 65%; width: 2px; height: 2px; animation-delay: 0.5s; }
-    .estrela-5 { top: 25%; left: 70%; width: 3px; height: 3px; animation-delay: 2s; }
-
-    @keyframes twinkle {
-      0%, 100% { opacity: 0.2; transform: scale(0.8); }
-      50% { opacity: 1; transform: scale(1.2); }
-    }
-
-    /* Card principal de bloqueio */
-    .card-bloqueio {
-      position: relative;
-      z-index: 10;
-      width: 90%;
-      max-width: 500px;
-      background-color: rgba(28, 16, 41, 0.85); /* Vidro escuro */
-      border: 1px solid rgba(197, 168, 128, 0.25); /* Moldura dourada fina */
-      border-radius: 4px;
-      padding: 40px 30px;
-      text-align: center;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-      animation: fadeIn 1s ease-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Elementos da marca */
-    .brand {
-      font-family: 'Lora', serif;
-      font-size: 14px;
-      letter-spacing: 4px;
-      color: #C5A880; /* Dourado mate */
-      text-transform: uppercase;
-      margin-bottom: 25px;
-      display: inline-block;
-    }
-    
-    .titulo {
-      font-family: 'Lora', serif;
-      font-size: 26px;
-      font-weight: 400;
-      line-height: 1.3;
-      margin-bottom: 20px;
-      color: #FAF6F0;
-    }
-
-    .divisor-ouro {
-      width: 60px;
-      height: 1px;
-      background-color: #C5A880;
-      margin: 20px auto;
-    }
-
-    .mensagem {
-      font-size: 15px;
-      line-height: 1.7;
-      color: rgba(229, 217, 200, 0.85);
-      margin-bottom: 30px;
-      text-align: justify;
-    }
-
-    .mensagem p {
-      margin-bottom: 15px;
-    }
-
-    /* Botão de contato */
-    .btn-contato {
-      display: inline-block;
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: #120A1A;
-      background-color: #C5A880;
-      padding: 14px 28px;
-      border-radius: 4px;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(197, 168, 128, 0.2);
-    }
-
-    .btn-contato:hover {
-      background-color: #D5C4A1;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(197, 168, 128, 0.4);
-    }
-
-    .rodape {
-      margin-top: 35px;
-      font-size: 11px;
-      color: rgba(229, 217, 200, 0.4);
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="container">
+    <header class="main-header">
+      <span class="brand">Nathalia Pepe</span>
+      <h1>Gerador de Mapa Arquetípico do Nome</h1>
+      <p class="subtitle">Laudos Personalizados de Perfil & Linhagem Ancestral</p>
+    </header>
 
-  <!-- Elemento de fundo com estrelas -->
-  <div class="estrelas">
-    <div class="estrela estrela-1"></div>
-    <div class="estrela estrela-2"></div>
-    <div class="estrela estrela-3"></div>
-    <div class="estrela estrela-4"></div>
-    <div class="estrela estrela-5"></div>
+    <main class="generator-card">
+      <form id="generatorForm">
+        <!-- Módulo de Nome Pessoal (Dois campos) -->
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="nomePessoal1">Primeiro Nome (Obrigatório)</label>
+            <span class="field-desc">Ex: Ana</span>
+            <input type="text" id="nomePessoal1" placeholder="Ex: Ana" required>
+          </div>
+          <div class="form-group">
+            <label for="nomePessoal2">Nome Composto (Opcional)</label>
+            <span class="field-desc">Ex: Clara</span>
+            <input type="text" id="nomePessoal2" placeholder="Ex: Clara">
+          </div>
+        </div>
+
+        <!-- O campo de sobrenomes dinâmicos foi reposicionado para baixo do checkbox correspondente por usabilidade -->
+
+        <!-- Seleção de Módulos (Simulando compras do checkout) -->
+        <div class="form-group" id="modulosGroup">
+          <label id="moduloGroupTitle">Itens Inclusos no Seu Laudo</label>
+          <span class="field-desc" id="moduloGroupDesc">Veja abaixo quais seções farão parte do seu PDF personalizado.</span>
+          
+          <div class="modules-grid">
+            <!-- Módulo Geral (Identidade) -->
+            <div class="module-option adquirido cliente-view" id="containerGeral">
+              <input type="checkbox" id="moduloGeral" checked disabled>
+              <label for="moduloGeral" style="width: 100%;">
+                <div class="module-header-row">
+                  <strong>Módulo Geral (Identidade)</strong>
+                  <span class="badge incluso">Incluso</span>
+                </div>
+                <span>Perfil de essência, forças, desafios e caminho de evolução.</span>
+              </label>
+            </div>
+
+            <!-- Módulo Amor -->
+            <div class="module-option cliente-view" id="containerAmor">
+              <input type="checkbox" id="moduloAmor">
+              <label for="moduloAmor" style="width: 100%;">
+                <div class="module-header-row">
+                  <strong>Módulo Amor e Relacionamentos</strong>
+                  <span class="badge ausente" id="badgeAmor">Não Adquirido</span>
+                </div>
+                <span>Descubra como o seu arcano pessoal te influencia na sua vida amorosa.</span>
+              </label>
+            </div>
+
+            <!-- Módulo Carreira -->
+            <div class="module-option cliente-view" id="containerCarreira">
+              <input type="checkbox" id="moduloCarreira">
+              <label for="moduloCarreira" style="width: 100%;">
+                <div class="module-header-row">
+                  <strong>Módulo Carreira</strong>
+                  <span class="badge ausente" id="badgeCarreira">Não Adquirido</span>
+                </div>
+                <span>Descubra como o seu arcano pessoal te influencia no seu profissional.</span>
+              </label>
+            </div>
+
+            <!-- Módulo Família -->
+            <div class="module-option cliente-view" id="containerFamilia">
+              <input type="checkbox" id="moduloFamilia">
+              <label for="moduloFamilia" style="width: 100%;">
+                <div class="module-header-row">
+                  <strong>Módulo Herança Ancestral</strong>
+                  <span class="badge ausente" id="badgeFamilia">Não Adquirido</span>
+                </div>
+                <span>Descubra qual é o arcano da sua egrégora familiar e como isso influencia silenciosamente a sua jornada.</span>
+              </label>
+            </div>
+
+            <!-- Módulo de Sobrenomes Dinâmicos (Máx. 4) - Posicionado espacialmente abaixo do módulo correspondente -->
+            <div class="form-group" id="sobrenomesGroup" style="display: none; margin-top: 15px; border-left: 2px solid #C5A880; padding-left: 15px; background-color: #FAF9F6; padding-top: 15px; padding-bottom: 15px; border-radius: 0 4px 4px 0; border-right: 1px solid #E5E7EB; border-top: 1px solid #E5E7EB; border-bottom: 1px solid #E5E7EB;">
+              <label style="font-size: 13.5px; color: #2C1E3B; font-weight: 600; margin-bottom: 6px;">Digite os Sobrenomes de Família (Herança Ancestral):</label>
+              <span class="field-desc" style="margin-bottom: 12px;">Os sobrenomes com conectores (Ex: "Dos Santos") devem ser escritos inteiros no mesmo campo.</span>
+              
+              <div id="sobrenomesContainer" style="margin-bottom: 10px;">
+                <div class="sobrenome-item">
+                  <input type="text" class="sobrenome-input" placeholder="Ex: Dos Santos">
+                  <span class="sobrenome-number">Sobrenome 1 (Obrigatório)</span>
+                </div>
+              </div>
+              
+              <button type="button" id="btnAddSobrenome" class="btn-secondary-link">+ Adicionar Outro Sobrenome</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ALERTA CRÍTICO DE ERRO DE DIGITAÇÃO -->
+        <div class="alerta-conferencia">
+          <div class="alerta-icon">⚠️</div>
+          <div class="alerta-conteudo">
+            <h4>Confira os Dados Antes de Confirmar</h4>
+            <p>A análise numerológica depende da <strong>grafia exata</strong> do nome (exatamente como consta na certidão de nascimento). Revise cada letra, acentos e espaços antes de clicar em gerar.</p>
+            <p class="alerta-destaque">Uma vez gerado o Mapa, a análise não poderá ser alterada ou refeita gratuitamente. Em caso de erro de digitação por parte do cliente, será necessária uma nova compra.</p>
+          </div>
+        </div>
+
+        <button type="submit" id="btnGerar" class="btn-primary">
+          <span class="btn-text">Gerar e Baixar Mapa PDF</span>
+          <span class="btn-loader hidden">Processando Laudo...</span>
+        </button>
+      </form>
+    </main>
+
+    <footer class="main-footer">
+      <p>© 2026 Nathalia Pepe • Painel Administrativo de Emissão de Módulos</p>
+    </footer>
   </div>
 
-  <!-- Card Central -->
-  <div class="card-bloqueio">
-    <span class="brand">Nathalia Pepe</span>
-    <h1 class="titulo">Gerador Temporariamente Indisponível</h1>
-    <div class="divisor-ouro"></div>
-    
-    <div class="mensagem">
-      <p>Olá! O sistema gerador de Mapas de Arquétipos Pessoais está passando por uma manutenção programada ou foi suspenso temporariamente para atualizações técnicas.</p>
-      <p>Se você já é cliente e tem alguma dúvida sobre o seu laudo, ou gostaria de mais informações sobre consultas e leituras individuais, entre em contato diretamente conosco pelo Instagram.</p>
+  <!-- Overlay de Geração e Progresso Místico -->
+  <div id="loadingOverlay" class="loading-overlay hidden">
+    <div class="loading-content">
+      <!-- Estado de Carregamento -->
+      <div id="loadingState">
+        <div class="mystical-spinner-container">
+          <div class="mystical-spinner"></div>
+          <div class="mystical-spinner-inner"></div>
+          <div class="mystical-spinner-center"></div>
+        </div>
+        <h3 id="loadingTitle">Alinhando seu Mapa...</h3>
+        <p id="loadingSubtitle">Por favor, aguarde alguns instantes enquanto o laudo é gerado.</p>
+        <div class="progress-bar-container">
+          <div id="progressBar" class="progress-bar"></div>
+        </div>
+        <div id="progressSteps" class="progress-steps">Iniciando cálculos cabalísticos...</div>
+      </div>
+
+      <!-- Estado de Sucesso (Oculto inicialmente) -->
+      <div id="successState" class="success-container hidden">
+        <div class="success-icon">✨</div>
+        <h3 id="successTitle" style="font-family: 'Lora', serif; font-size: 22px; color: #C5A880; font-weight: 500; margin-bottom: 10px;">Seu Mapa Está Pronto!</h3>
+        <p id="successSubtitle" style="font-size: 13.5px; color: #FAF6F0; margin-bottom: 20px; line-height: 1.5;">Os cálculos numerológicos foram concluídos com sucesso e o laudo em PDF foi gerado.</p>
+        
+        <a id="btnDownloadPDF" href="#" target="_blank" class="btn-success-pdf">
+          <span>Visualizar Laudo em PDF</span>
+        </a>
+        
+        <p class="success-instruction">
+          Ao clicar no botão, o PDF abrirá diretamente. Se preferir, você poderá salvá-lo no seu celular usando o menu de compartilhamento do seu navegador.
+        </p>
+        
+        <button type="button" id="btnCloseOverlay" class="btn-close-overlay">Voltar ao Formulário</button>
+      </div>
     </div>
-
-    <a href="https://www.instagram.com/nathaliapepe.tarot" target="_blank" class="btn-contato">Falar no Instagram</a>
-    
-    <div class="rodape">Tarot & Autoconhecimento</div>
   </div>
 
+  <script>
+    // Gerenciamento de Sobrenomes Dinâmicos
+    const container = document.getElementById('sobrenomesContainer');
+    const btnAdd = document.getElementById('btnAddSobrenome');
+    const exemplosSobrenome = ["Moraes", "de Oliveira", "Silva"];
+    let countSobrenomes = 1;
+
+    // Toggle de visibilidade do campo de sobrenomes baseado na compra do Módulo Família
+    const checkboxFamilia = document.getElementById('moduloFamilia');
+    const sobrenomesGroup = document.getElementById('sobrenomesGroup');
+
+    function toggleSobrenomes() {
+      const inputs = sobrenomesGroup.querySelectorAll('.sobrenome-input');
+      if (checkboxFamilia.checked) {
+        sobrenomesGroup.style.display = 'block';
+        if (inputs.length > 0) {
+          inputs[0].required = true;
+        }
+      } else {
+        sobrenomesGroup.style.display = 'none';
+        inputs.forEach(input => input.required = false);
+      }
+    }
+
+    checkboxFamilia.addEventListener('change', toggleSobrenomes);
+
+    btnAdd.addEventListener('click', () => {
+      if (countSobrenomes >= 4) {
+        alert("O limite máximo é de 4 sobrenomes.");
+        return;
+      }
+      countSobrenomes++;
+      
+      const item = document.createElement('div');
+      item.className = 'sobrenome-item';
+      
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'sobrenome-input';
+      input.placeholder = `Ex: ${exemplosSobrenome[countSobrenomes - 2] || 'Sobrenome'}`;
+      input.required = true;
+
+      const spanLabel = document.createElement('span');
+      spanLabel.className = 'sobrenome-number';
+      spanLabel.innerText = `Sobrenome ${countSobrenomes} (Adicional)`;
+
+      const btnRemover = document.createElement('button');
+      btnRemover.type = 'button';
+      btnRemover.className = 'btn-remover-sobrenome';
+      btnRemover.innerText = 'Remover';
+      btnRemover.addEventListener('click', () => {
+        item.remove();
+        countSobrenomes--;
+        reordenarSobrenomes();
+      });
+
+      item.appendChild(input);
+      item.appendChild(spanLabel);
+      item.appendChild(btnRemover);
+      container.appendChild(item);
+
+      if (countSobrenomes === 4) {
+        btnAdd.style.display = 'none';
+      }
+    });
+
+    function reordenarSobrenomes() {
+      const items = container.querySelectorAll('.sobrenome-item');
+      items.forEach((item, index) => {
+        const num = index + 1;
+        const span = item.querySelector('.sobrenome-number');
+        const input = item.querySelector('.sobrenome-input');
+        if (num === 1) {
+          span.innerText = `Sobrenome 1 (Obrigatório)`;
+          input.placeholder = "Ex: Dos Santos";
+        } else {
+          span.innerText = `Sobrenome ${num} (Adicional)`;
+          input.placeholder = `Ex: ${exemplosSobrenome[num - 2] || 'Sobrenome'}`;
+        }
+      });
+      if (countSobrenomes < 4) {
+        btnAdd.style.display = 'inline-block';
+      }
+    }
+
+    // Passos do carregamento místico
+    const mensagensLoading = [
+      "Iniciando conexões arquetípicas...",
+      "Lendo a vibração numérica do primeiro nome...",
+      "Mapeando o Arcano Principal da Alma...",
+      "Analisando forças, desafios e a sombra pessoal...",
+      "Verificando energias do nome composto...",
+      "Conectando com a egrégora da Herança Ancestral...",
+      "Mapeando a influência do sobrenome paterno...",
+      "Mapeando a influência do sobrenome materno...",
+      "Consolidando relatórios numerológicos...",
+      "Calculando caminhos e ciclos profissionais...",
+      "Alinhando arquétipos no amor e relacionamentos...",
+      "Renderizando páginas e diagramas de Tarot...",
+      "Gerando laudo final em alta resolução..."
+    ];
+
+    // Formulário de Envio
+    document.getElementById('generatorForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const nome1 = document.getElementById('nomePessoal1').value.trim();
+      const nome2 = document.getElementById('nomePessoal2').value.trim();
+      
+      const nomesPessoais = [nome1];
+      if (nome2) {
+        nomesPessoais.push(nome2);
+      }
+
+      const amor = document.getElementById('moduloAmor').checked;
+      const carreira = document.getElementById('moduloCarreira').checked;
+      const familia = document.getElementById('moduloFamilia').checked;
+
+      // Lê todos os inputs de sobrenome preenchidos se o módulo de herança ancestral estiver ativo
+      const sobrenomes = [];
+      if (familia) {
+        const sobrenomeInputs = container.querySelectorAll('.sobrenome-input');
+        sobrenomeInputs.forEach(input => {
+          const val = input.value.trim();
+          if (val) {
+            sobrenomes.push(val);
+          }
+        });
+      }
+
+      // Elementos do Overlay
+      const overlay = document.getElementById('loadingOverlay');
+      const loadingState = document.getElementById('loadingState');
+      const successState = document.getElementById('successState');
+      const progressBar = document.getElementById('progressBar');
+      const progressSteps = document.getElementById('progressSteps');
+      const btnDownloadPDF = document.getElementById('btnDownloadPDF');
+      
+      // Exibe overlay de loading
+      overlay.classList.remove('hidden');
+      loadingState.classList.remove('hidden');
+      successState.classList.add('hidden');
+      
+      // Reseta barra de progresso
+      progressBar.style.width = '0%';
+      progressSteps.innerText = mensagensLoading[0];
+
+      // Lógica de progresso simulado
+      let progresso = 0;
+      let mensagemIndex = 0;
+      
+      const intervalProgresso = setInterval(() => {
+        if (progresso < 92) {
+          // Incrementa de forma irregular para parecer um cálculo real
+          progresso += Math.floor(Math.random() * 8) + 4;
+          if (progresso > 92) progresso = 92;
+          progressBar.style.width = `${progresso}%`;
+        }
+        
+        // Rotaciona as mensagens místicas
+        if (mensagemIndex < mensagensLoading.length - 1) {
+          mensagemIndex++;
+          progressSteps.innerText = mensagensLoading[mensagemIndex];
+        }
+      }, 1200);
+
+      try {
+        const response = await fetch('/api/gerar-mapa', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nomesPessoais,
+            sobrenomes,
+            modulos: {
+              amor,
+              carreira,
+              familia
+            }
+          })
+        });
+
+        if (!response.ok) {
+          const errData = await response.json();
+          throw new Error(errData.erro || 'Falha ao gerar o PDF. Verifique os dados inseridos.');
+        }
+
+        const data = await response.json();
+        if (data.url) {
+          // Para o progresso simulado e avança para 100%
+          clearInterval(intervalProgresso);
+          progressBar.style.width = '100%';
+          progressSteps.innerText = "Laudo numerológico compilado!";
+
+          // Pequena pausa para o usuário ver a barra cheia antes de mudar para a tela de sucesso
+          setTimeout(() => {
+            loadingState.classList.add('hidden');
+            successState.classList.remove('hidden');
+            
+            // Configura o link direto e síncrono para o PDF
+            btnDownloadPDF.href = data.url;
+          }, 600);
+        } else {
+          throw new Error('Falha ao carregar o caminho do arquivo PDF.');
+        }
+      } catch (error) {
+        clearInterval(intervalProgresso);
+        overlay.classList.add('hidden');
+        alert(error.message);
+      }
+    });
+
+    // Fechamento do Overlay
+    document.getElementById('btnCloseOverlay').addEventListener('click', () => {
+      document.getElementById('loadingOverlay').classList.add('hidden');
+    });
+
+    // Inicialização baseada nos parâmetros da URL (Integração de Checkout)
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Utiliza as variáveis globais já declaradas anteriormente
+    const checkboxAmor = document.getElementById('moduloAmor');
+    const checkboxCarreira = document.getElementById('moduloCarreira');
+
+    const containerAmor = document.getElementById('containerAmor');
+    const containerCarreira = document.getElementById('containerCarreira');
+    const containerFamilia = document.getElementById('containerFamilia');
+
+    const badgeAmor = document.getElementById('badgeAmor');
+    const badgeCarreira = document.getElementById('badgeCarreira');
+    const badgeFamilia = document.getElementById('badgeFamilia');
+
+    // Marca se foi adquirido a partir dos parâmetros da URL (caso queira testar simulações automáticas)
+    const amorComprado = urlParams.get('amor') === 'true' || urlParams.get('amor') === '1';
+    const carreiraComprado = urlParams.get('carreira') === 'true' || urlParams.get('carreira') === '1';
+    const familiaComprado = urlParams.get('familia') === 'true' || urlParams.get('familia') === '1';
+
+    if (amorComprado) checkboxAmor.checked = true;
+    if (carreiraComprado) checkboxCarreira.checked = true;
+    if (familiaComprado) checkboxFamilia.checked = true;
+
+    // MODO HOMOLOGAÇÃO: Habilita interatividade total para testes da Nathalia Pepe
+    document.getElementById('moduloGroupTitle').innerText = 'Módulos Adicionais (Simulação de Vendas)';
+    document.getElementById('moduloGroupDesc').innerText = 'Marque ou desmarque os módulos opcionais abaixo para simular as diferentes compras dos clientes.';
+    
+    // Garante que os checkboxes e contêineres estejam interativos e editáveis
+    checkboxAmor.disabled = false;
+    checkboxCarreira.disabled = false;
+    checkboxFamilia.disabled = false;
+
+    containerAmor.classList.remove('cliente-view');
+    containerCarreira.classList.remove('cliente-view');
+    containerFamilia.classList.remove('cliente-view');
+
+    // Função de atualização dinâmica de badges e estilos
+    function atualizarBadge(checkbox, container, badge) {
+      if (checkbox.checked) {
+        container.classList.add('adquirido');
+        badge.className = 'badge incluso';
+        badge.innerText = 'Ativo';
+      } else {
+        container.classList.remove('adquirido');
+        badge.className = 'badge ausente';
+        badge.innerText = 'Inativo';
+      }
+    }
+
+    checkboxAmor.addEventListener('change', () => atualizarBadge(checkboxAmor, containerAmor, badgeAmor));
+    checkboxCarreira.addEventListener('change', () => atualizarBadge(checkboxCarreira, containerCarreira, badgeCarreira));
+    checkboxFamilia.addEventListener('change', () => {
+      atualizarBadge(checkboxFamilia, containerFamilia, badgeFamilia);
+      toggleSobrenomes();
+    });
+
+    // Inicializa a exibição de acordo com o estado das caixas
+    atualizarBadge(checkboxAmor, containerAmor, badgeAmor);
+    atualizarBadge(checkboxCarreira, containerCarreira, badgeCarreira);
+    atualizarBadge(checkboxFamilia, containerFamilia, badgeFamilia);
+
+    // Executa a verificação inicial para exibir ou ocultar os sobrenomes
+    toggleSobrenomes();
+  </script>
 </body>
 </html>

@@ -580,8 +580,8 @@ function gerarHTML(dadosCalculados, modulosContratados, baseUrl = 'http://localh
         margin-bottom: 2mm;
       }
       .texto-carta p {
-        font-size: 13.5px;
-        line-height: 1.6;
+        font-size: 15px;
+        line-height: 1.7;
         color: rgba(44, 30, 59, 0.9);
         text-align: justify;
       }
@@ -600,8 +600,8 @@ function gerarHTML(dadosCalculados, modulosContratados, baseUrl = 'http://localh
         padding-left: 3mm;
       }
       .texto-secao p {
-        font-size: 13.5px;
-        line-height: 1.7;
+        font-size: 15px;
+        line-height: 1.8;
         color: rgba(44, 30, 59, 0.9);
         text-align: justify;
       }
@@ -618,7 +618,7 @@ function gerarHTML(dadosCalculados, modulosContratados, baseUrl = 'http://localh
         margin-bottom: 6mm;
       }
       .texto-introducao p {
-        font-size: 14px;
+        font-size: 15.5px;
         line-height: 1.8;
         color: rgba(44, 30, 59, 0.9);
         margin-bottom: 4mm;
