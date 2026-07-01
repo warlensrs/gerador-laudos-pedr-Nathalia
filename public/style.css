@@ -368,8 +368,17 @@ input[type="text"]:focus {
 .module-option.cliente-view:hover {
   border-color: #E5E7EB; /* Borda padrão no hover de leitura */
 }
+}
 .module-option.cliente-view.adquirido:hover {
   border-color: #C5A880; /* Borda dourada no hover de leitura adquirida */
+}
+
+/* Estilo para itens não adquiridos na visualização do cliente */
+.module-option.cliente-bloqueado {
+  opacity: 0.55;
+  background-color: #F9FAFB !important;
+  border-style: dashed !important;
+  border-color: #D1D5DB !important;
 }
 
 /* Overlay de Processamento Místico Premium */

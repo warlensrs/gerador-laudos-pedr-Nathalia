@@ -330,7 +330,11 @@
       }, 1200);
 
       try {
-        const response = await fetch('/api/gerar-mapa', {
+        const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+          ? '/api/gerar-mapa'
+          : 'https://gerador-laudos-pdf-nathalia.onrender.com/api/gerar-mapa';
+
+        const response = await fetch(apiUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -361,8 +365,10 @@
             loadingState.classList.add('hidden');
             successState.classList.remove('hidden');
             
-            // Configura o link direto e síncrono para o PDF
-            btnDownloadPDF.href = data.url;
+            // Configura o link direto e síncrono para o PDF (apontando sempre para o Render)
+            btnDownloadPDF.href = data.url.startsWith('http') 
+              ? data.url 
+              : 'https://gerador-laudos-pdf-nathalia.onrender.com' + data.url;
           }, 600);
         } else {
           throw new Error('Falha ao carregar o caminho do arquivo PDF.');
@@ -382,9 +388,10 @@
     // Inicialização baseada nos parâmetros da URL (Integração de Checkout)
     const urlParams = new URLSearchParams(window.location.search);
     
-    // Utiliza as variáveis globais já declaradas anteriormente
+    // Utiliza as variáveis globais do DOM
     const checkboxAmor = document.getElementById('moduloAmor');
     const checkboxCarreira = document.getElementById('moduloCarreira');
+    const checkboxFamilia = document.getElementById('moduloFamilia');
 
     const containerAmor = document.getElementById('containerAmor');
     const containerCarreira = document.getElementById('containerCarreira');
@@ -394,52 +401,84 @@
     const badgeCarreira = document.getElementById('badgeCarreira');
     const badgeFamilia = document.getElementById('badgeFamilia');
 
-    // Marca se foi adquirido a partir dos parâmetros da URL (caso queira testar simulações automáticas)
-    const amorComprado = urlParams.get('amor') === 'true' || urlParams.get('amor') === '1';
-    const carreiraComprado = urlParams.get('carreira') === 'true' || urlParams.get('carreira') === '1';
-    const familiaComprado = urlParams.get('familia') === 'true' || urlParams.get('familia') === '1';
+    // Chave mestra de admin ou simulação para liberar tudo para testes da Nathalia Pepe
+    // Se não passar parâmetros de liberação de módulos e estiver em localhost, assume admin para facilitar desenvolvimento local
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const isDemo = urlParams.get('admin') === 'true' || urlParams.get('admin') === '1' || urlParams.get('senha') === 'nathalia123' || (isLocalhost && !urlParams.has('liberado') && !urlParams.has('amor') && !urlParams.has('carreira') && !urlParams.has('familia'));
 
-    if (amorComprado) checkboxAmor.checked = true;
-    if (carreiraComprado) checkboxCarreira.checked = true;
-    if (familiaComprado) checkboxFamilia.checked = true;
+    if (isDemo) {
+      // MODO HOMOLOGAÇÃO: Habilita interatividade total para testes da Nathalia Pepe e de vocês
+      document.getElementById('moduloGroupTitle').innerText = 'Módulos Adicionais (Simulação de Vendas)';
+      document.getElementById('moduloGroupDesc').innerText = 'Marque ou desmarque os módulos opcionais abaixo para simular as diferentes compras dos clientes.';
+      
+      checkboxAmor.disabled = false;
+      checkboxCarreira.disabled = false;
+      checkboxFamilia.disabled = false;
 
-    // MODO HOMOLOGAÇÃO: Habilita interatividade total para testes da Nathalia Pepe
-    document.getElementById('moduloGroupTitle').innerText = 'Módulos Adicionais (Simulação de Vendas)';
-    document.getElementById('moduloGroupDesc').innerText = 'Marque ou desmarque os módulos opcionais abaixo para simular as diferentes compras dos clientes.';
-    
-    // Garante que os checkboxes e contêineres estejam interativos e editáveis
-    checkboxAmor.disabled = false;
-    checkboxCarreira.disabled = false;
-    checkboxFamilia.disabled = false;
+      containerAmor.classList.remove('cliente-view');
+      containerCarreira.classList.remove('cliente-view');
+      containerFamilia.classList.remove('cliente-view');
 
-    containerAmor.classList.remove('cliente-view');
-    containerCarreira.classList.remove('cliente-view');
-    containerFamilia.classList.remove('cliente-view');
+      // Adiciona ouvintes de clique apenas no modo demo
+      checkboxAmor.addEventListener('change', () => atualizarBadgeDemo(checkboxAmor, containerAmor, badgeAmor));
+      checkboxCarreira.addEventListener('change', () => atualizarBadgeDemo(checkboxCarreira, containerCarreira, badgeCarreira));
+      checkboxFamilia.addEventListener('change', () => {
+        atualizarBadgeDemo(checkboxFamilia, containerFamilia, badgeFamilia);
+        toggleSobrenomes();
+      });
+      
+      // Função de atualização dinâmica para o modo demo
+      function atualizarBadgeDemo(checkbox, container, badge) {
+        if (checkbox.checked) {
+          container.classList.add('adquirido');
+          badge.className = 'badge incluso';
+          badge.innerText = 'Ativo';
+        } else {
+          container.classList.remove('adquirido');
+          badge.className = 'badge ausente';
+          badge.innerText = 'Inativo';
+        }
+      }
+      
+      // Inicializa os badges na tela
+      atualizarBadgeDemo(checkboxAmor, containerAmor, badgeAmor);
+      atualizarBadgeDemo(checkboxCarreira, containerCarreira, badgeCarreira);
+      atualizarBadgeDemo(checkboxFamilia, containerFamilia, badgeFamilia);
+    } else {
+      // MODO CLIENTE (PRODUÇÃO TRAVADA): Liberação controlada pelo link da plataforma
+      document.getElementById('moduloGroupTitle').innerText = 'Itens Inclusos no Seu Laudo';
+      document.getElementById('moduloGroupDesc').innerText = 'Veja abaixo quais seções farão parte do seu PDF personalizado.';
 
-    // Função de atualização dinâmica de badges e estilos
-    function atualizarBadge(checkbox, container, badge) {
-      if (checkbox.checked) {
-        container.classList.add('adquirido');
-        badge.className = 'badge incluso';
-        badge.innerText = 'Ativo';
-      } else {
-        container.classList.remove('adquirido');
-        badge.className = 'badge ausente';
-        badge.innerText = 'Inativo';
+      // Bloqueia interatividade do cliente
+      checkboxAmor.disabled = true;
+      checkboxCarreira.disabled = true;
+      checkboxFamilia.disabled = true;
+
+      // Lê parâmetros de compra da URL (Cactus envia ex: ?amor=1&carreira=0&familia=1)
+      const amorComprado = urlParams.get('amor') === 'true' || urlParams.get('amor') === '1' || urlParams.get('liberado')?.includes('amor');
+      const carreiraComprado = urlParams.get('carreira') === 'true' || urlParams.get('carreira') === '1' || urlParams.get('liberado')?.includes('carreira');
+      const familiaComprado = urlParams.get('familia') === 'true' || urlParams.get('familia') === '1' || urlParams.get('liberado')?.includes('familia') || urlParams.get('liberado')?.includes('ancestral');
+
+      // Aplica as travas visuais baseadas na compra
+      configurarModuloCliente(checkboxAmor, containerAmor, badgeAmor, amorComprado);
+      configurarModuloCliente(checkboxCarreira, containerCarreira, badgeCarreira, carreiraComprado);
+      configurarModuloCliente(checkboxFamilia, containerFamilia, badgeFamilia, familiaComprado);
+      
+      function configurarModuloCliente(checkbox, container, badge, foiAdquirido) {
+        checkbox.checked = foiAdquirido;
+        if (foiAdquirido) {
+          container.classList.add('adquirido');
+          container.classList.remove('cliente-bloqueado');
+          badge.className = 'badge incluso';
+          badge.innerText = 'Incluso';
+        } else {
+          container.classList.remove('adquirido');
+          container.classList.add('cliente-bloqueado'); // Estilo visual opaco de bloqueado
+          badge.className = 'badge ausente';
+          badge.innerText = 'Não Adquirido';
+        }
       }
     }
-
-    checkboxAmor.addEventListener('change', () => atualizarBadge(checkboxAmor, containerAmor, badgeAmor));
-    checkboxCarreira.addEventListener('change', () => atualizarBadge(checkboxCarreira, containerCarreira, badgeCarreira));
-    checkboxFamilia.addEventListener('change', () => {
-      atualizarBadge(checkboxFamilia, containerFamilia, badgeFamilia);
-      toggleSobrenomes();
-    });
-
-    // Inicializa a exibição de acordo com o estado das caixas
-    atualizarBadge(checkboxAmor, containerAmor, badgeAmor);
-    atualizarBadge(checkboxCarreira, containerCarreira, badgeCarreira);
-    atualizarBadge(checkboxFamilia, containerFamilia, badgeFamilia);
 
     // Executa a verificação inicial para exibir ou ocultar os sobrenomes
     toggleSobrenomes();
